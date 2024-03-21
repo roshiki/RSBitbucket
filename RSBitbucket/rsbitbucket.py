@@ -1,7 +1,7 @@
 import requests
 import json
 from requests.auth import HTTPBasicAuth
-from models.BuildSummaries import BuildSummaries
+from .models.BuildSummaries import BuildSummaries
 
 
 class RSBitbucketApi:
