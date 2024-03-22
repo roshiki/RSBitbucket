@@ -2,13 +2,14 @@ import requests
 import json
 from requests.auth import HTTPBasicAuth
 from .models.BuildSummaries import BuildSummaries
-
+import truststore
 
 class RSBitbucketApi:
 
     def __init__(self, user_slug, token, host):
         self.host = host
         self.httpBasic = HTTPBasicAuth(user_slug, token)
+        truststore.inject_into_ssl()
 
     def get_pr(self, project, repo, pull_request_id):
         url = f"{self.host}/rest/api/latest/projects/{project}/repos/{repo}/pull-requests/{pull_request_id}"
