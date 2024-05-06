@@ -24,7 +24,7 @@ class RSBitbucketApi:
         return json_data
 
     def get_pr_activities(self, project, repo, pull_request_id):
-        url = f"{self.host}/rest/api/latest/projects/{project}/repos/{repo}/pull-requests/{pull_request_id}/activities?avatarSize=48&start=0&limit=25&markup=true"
+        url = f"{self.host}/rest/api/latest/projects/{project}/repos/{repo}/pull-requests/{pull_request_id}/activities"
         response = requests.get(url, auth=self.httpBasic)
         json_data = json.loads(response.content)
         return json_data['values']
@@ -36,16 +36,16 @@ class RSBitbucketApi:
         json_data = json.loads(response.content)
         return json_data
 
-    # TODO: функция pr_comments_post() или post_pr_comments()
-    def post_test_pr(self, project, repo, pull_request_id):
-        url = f"{self.host}/rest/api/latest/projects/{project}/repos/{repo}/pull-requests/{pull_request_id}/comments?diffType=EFFECTIVE&markup=true&avatarSize=48"
+    # TODO: other parameters, enum
+    def post_comments(self, project: str, repo: str, pull_request_id: int, text: str, severity: str = "NORMAL"):
+        url = f"{self.host}/rest/api/latest/projects/{project}/repos/{repo}/pull-requests/{pull_request_id}/comments"
         json_data = {
-            "text": "test pr",
-            "severity": "NORMAL"
+            "text": text,
+            "severity": severity
         }
         response = requests.post(url, auth=self.httpBasic, json=json_data)
 
-    # TODO: функция get_pull_requests с параметрами
+    # TODO: other parameters, enum
     def get_dashboard_prs(self, role: str, state: str, limit: int) -> dict:
         url = f"{self.host}/rest/api/latest/dashboard/pull-requests"
         params = {'role': role, 'state': state, 'limit': limit}
